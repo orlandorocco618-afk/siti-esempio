@@ -23,12 +23,9 @@ img{display:block;max-width:100%;height:auto}a{color:inherit}h1,h2,h3,p,ul,ol,fi
 .btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0) scale(.97)}
 a:not(.btn){text-underline-offset:.18em;text-decoration-thickness:1px;transition:color .2s,text-decoration-color .2s}
 .stato{font-weight:500}
-.legale{padding:24px 0 120px;font-size:var(--step-small)}.legale details{max-width:72ch;margin-top:8px}.legale summary{cursor:pointer;font-size:1rem;padding:10px 0;min-height:44px}
+.legale{padding:24px 0 48px;font-size:var(--step-small)}.legale details{max-width:72ch;margin-top:8px}.legale summary{cursor:pointer;font-size:1rem;padding:10px 0;min-height:44px}
 .testo-legale{font-size:1rem;line-height:1.55;padding-bottom:16px}.testo-legale p,.testo-legale li{margin-top:10px}.testo-legale ul{padding-left:1.1em;list-style:disc}
 .imprint{font-size:var(--step-small);line-height:1.6}
-.barra{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:2px;background:var(--muted)}
-.barra a{flex:1;background:var(--ink);display:flex;align-items:center;justify-content:center;min-height:56px;color:var(--bg);text-decoration:none;font:500 1rem var(--testo-f)}
-@media (max-width:760px){.barra{display:flex}}
 .calcolo{display:grid;gap:14px;grid-template-columns:1fr 140px;align-items:end;margin-top:32px}
 .calcolo label{display:grid;gap:6px;font-size:1rem}.calcolo select,.calcolo input{font:inherit;font-size:1rem;min-height:48px;padding:8px 12px;background:var(--campo,#fff);color:var(--campo-ink,#111);border:2px solid currentColor;border-radius:0}
 .calcolo output{grid-column:1/-1;font:var(--peso-display,400) var(--step-lead)/1.2 var(--display-f)}
@@ -96,8 +93,10 @@ a.riga-dove:hover .tondo{transform:translateX(6px)}
 .blocchi-nome span{flex:1;display:grid;place-items:center;background:var(--b);color:var(--c4);height:var(--h);padding:8%}.blocchi-nome svg{width:70%;max-height:80%}
 .piede .sotto-piede{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:56px;font-size:var(--step-small)}.piede .link{grid-column:1/9;display:grid;grid-template-columns:repeat(4,1fr);gap:8px 24px;align-content:start}.piede .indirizzi{grid-column:9/13;display:grid;gap:8px}
 .piede .fondo{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-top:56px;flex-wrap:wrap}.piede .fondo .btn{min-height:44px;padding:8px 20px}
-.piede .legale{padding-bottom:110px}.piede .legale .box{width:100%}
+.piede .legale{padding-bottom:48px}.piede .legale .box{width:100%}
 @media (max-width:760px){.blocchi-nome{height:22svh;min-height:140px}.blocchi-nome span{font-size:12vw}.piede .link,.piede .indirizzi{grid-column:1/-1}.piede .link{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.eroe{min-height:0;height:auto;padding-top:104px;padding-bottom:48vw}.eroe .cerchio{top:auto;bottom:-92vw}
+.offerta{min-height:0;padding:64px 0 104px}.fascia-titolo{min-height:0;padding-top:56px;padding-bottom:24px}.muro>:last-child:nth-child(odd){grid-column:1/-1;aspect-ratio:2/1}.muro>:last-child:nth-child(odd) img{object-fit:cover;width:100%;height:100%}}
 </style></head>
 <body class="d-capitoli">
 <a class="salta" href="#contenuto">Vai al contenuto</a>
@@ -122,7 +121,6 @@ a.riga-dove:hover .tondo{transform:translateX(6px)}
 <p>Le foto che seguono sono d’archivio, con licenza libera: mostrano il territorio e i prodotti della zona, non l’attività.</p><ul><li><a href="https://commons.wikimedia.org/wiki/File:Ca%27_Rezzonico_-_Il_parrucchiere_-_Pietro_Longhi.jpg" target="_blank" rel="noopener">Ca&#39; Rezzonico - Il parrucchiere - Pietro Longhi</a>: di Didier Descouens, public domain, via Wikimedia Commons</li><li><a href="https://commons.wikimedia.org/w/index.php?curid=77444354" target="_blank" rel="noopener">Forbici per parrucchiere</a>: di Garonzi Stefania, CC BY-SA 4.0, via Wikimedia Commons</li><li><a href="https://www.artic.edu/artworks/13514" target="_blank" rel="noopener">The Coiffure</a>: di Mary Cassatt, 1890–91, public domain (CC0), via Art Institute of Chicago</li><li><a href="https://www.metmuseum.org/art/collection/search/16809" target="_blank" rel="noopener">Hair Comb</a>: di India Rubber Comb Company, ca. 1851, public domain (CC0), via The Metropolitan Museum of Art</li><li><a href="https://www.artic.edu/artworks/24001" target="_blank" rel="noopener">Woman Holding a Tortoise-shell Hair-comb</a>: di Kitagawa Utamaro, c. 1795/96, public domain (CC0), via Art Institute of Chicago</li><li><a href="https://www.artic.edu/artworks/60627" target="_blank" rel="noopener">Lady at Her Toilette</a>: di Pietro Longhi, Late 1740s, public domain (CC0), via Art Institute of Chicago</li></ul>
 </div></details>
 </div></div></footer>
-<nav class="barra" aria-label="Azioni rapide"><a href="tel:+390000000000">Chiama</a><a href="https://wa.me/390000000000?text=Ciao!%20Vorrei%20prenotare%20per%3A" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Piazza%20Municipio%203%2C%2085000%20Borgofiorito%20(PZ)" target="_blank" rel="noopener">Indicazioni</a></nav>
 <script>(function(){var d=document;d.documentElement.classList.add('js');
 var o={"lunedì":[],"martedì":["09:00-13:00","15:00-19:00"],"mercoledì":["09:00-13:00","15:00-19:00"],"giovedì":["09:00-13:00","15:00-19:00"],"venerdì":["09:00-13:00","15:00-19:00"],"sabato":["09:00-13:00","15:00-19:00"],"domenica":[]},G=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
 function m(h){var p=h.split(':');return +p[0]*60+ +p[1]}
