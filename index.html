@@ -1,24 +1,40 @@
 <!doctype html>
 <html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Siti di esempio</title><meta name="robots" content="noindex">
+<meta name="description" content="Quattro siti dimostrativi per attività locali della Basilicata.">
 <style>
-:root{--fondo:#f4f7fb;--carta:#fff;--testo:#0f1b2d;--tenue:#5d6b80;--acc:#1f5fd1}
-@media (prefers-color-scheme:dark){:root{--fondo:#0c1320;--carta:#141e30;--testo:#e6edf7;--tenue:#9aa8bd}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--fondo);color:var(--testo)}
-main{max-width:980px;margin:0 auto;padding:48px 16px}
-h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.1;margin:0 0 10px}p{color:var(--tenue);margin:0 0 28px;max-width:620px}
-.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-a.c{display:block;background:var(--carta);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 1px 0 #0001;transition:transform .15s}
-a.c:hover{transform:translateY(-3px)}a.c img{display:block;width:100%;aspect-ratio:8/5;object-fit:cover}a.c b{display:block;padding:12px 14px}
-small{display:block;margin-top:36px;color:var(--tenue)}
+:root{--fondo:#ece8e1;--carta:#f8f6f2;--testo:#1c1a17;--tenue:#4f4a43;--acc:#1f4fb8}
+@media (prefers-color-scheme:dark){:root{--fondo:#16150f;--carta:#211f19;--testo:#ebebe8;--tenue:#bdb6aa;--acc:#8fb0ff}}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--fondo);color:var(--testo)}
+main{max-width:1120px;margin:0 auto;padding:56px 16px 40px}
+h1{font-size:clamp(2.6rem,8.6vw,8.4rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 16px;max-width:none}
+.intro{color:var(--tenue);margin:0 0 40px;max-width:60ch}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;list-style:none;margin:0;padding:0}
+a.c{display:block;background:var(--carta);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s ease}
+a.c:hover{transform:translateY(-4px)}a.c:active{transform:translateY(-1px)}
+a.c:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+a.c img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:top}
+a.c span{display:block;padding:14px 16px 16px}a.c b{display:block;font-size:1.15rem}a.c small{color:var(--tenue);font-size:1rem}
+footer{margin-top:48px;color:var(--tenue);font-size:1rem;max-width:70ch}
+footer p{margin:0 0 8px}
+@keyframes su{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+h1,.intro,.g li,a.c b,a.c small,footer p{animation:su .7s cubic-bezier(.2,.7,.2,1) both}
+a.c b{animation-delay:.5s}a.c small{animation-delay:.58s}footer p{animation-delay:.6s}
+.intro{animation-delay:.08s}.g li:nth-child(1){animation-delay:.16s}.g li:nth-child(2){animation-delay:.24s}.g li:nth-child(3){animation-delay:.32s}.g li:nth-child(4){animation-delay:.4s}
+a.c img{transition:transform .5s ease}a.c:hover img{transform:scale(1.03)}
+@media (prefers-reduced-motion:reduce){h1,.intro,.g li,a.c b,a.c small,footer p{animation:none}a.c,a.c img{transition:none}a.c:hover,a.c:active,a.c:hover img{transform:none}}
 </style></head><body><main>
-<h1>Siti di esempio per attività locali</h1>
-<p>Quattro siti dimostrativi: attività, persone, numeri e recensioni sono inventati. Aprili dal telefono: è lì che li usano i clienti.</p>
-<div class="g">
-<a class="c" href="pizzeria-demo/"><img src="img/esempio-pizzeria.jpg" alt=""><b>Pizzeria</b></a>
-<a class="c" href="agriturismo-demo/"><img src="img/esempio-agriturismo.jpg" alt=""><b>Agriturismo</b></a>
-<a class="c" href="autoscuola-demo/"><img src="img/esempio-autoscuola.jpg" alt=""><b>Autoscuola</b></a>
-<a class="c" href="parrucchiere-demo/"><img src="img/esempio-parrucchiere.jpg" alt=""><b>Parrucchiera</b></a>
-</div>
-<small>Esempi a scopo dimostrativo.</small>
+<h1>Quattro siti di esempio</h1>
+<p class="intro">Siti dimostrativi per attività locali della Basilicata. Le attività, i nomi, i prezzi e i numeri sono inventati; le foto sono d’archivio, con l’autore citato in fondo a ogni sito. Aprili dal telefono: è lì che li usano i clienti.</p>
+<ul class="g">
+<li><a class="c" href="pizzeria-demo/"><img src="img/demo-pizzeria.jpg" alt="La prima schermata del sito di una pizzeria: verde scuro e oro, con il titolo Nonna Lina" width="1440" height="1800"><span><b>Pizzeria</b><small>La pagina è il menù</small></span></a></li>
+<li><a class="c" href="agriturismo-demo/"><img src="img/demo-agriturismo.jpg" alt="La prima schermata del sito di un agriturismo: la scritta Tra i cerri con una foto del bosco al posto di una parola" width="1440" height="1800"><span><b>Agriturismo</b><small>Il posto dentro il titolo</small></span></a></li>
+<li><a class="c" href="autoscuola-demo/"><img src="img/demo-autoscuola.jpg" alt="La prima schermata del sito di un’autoscuola: la scritta Patente B in paese su due fasce, bianca e gialla" width="1440" height="1800"><span><b>Autoscuola</b><small>Come un cartello stradale</small></span></a></li>
+<li><a class="c" href="parrucchiere-demo/"><img src="img/demo-parrucchiere.jpg" alt="La prima schermata del sito di una parrucchiera: arancione con un grande cerchio rosso" width="1440" height="1800"><span><b>Parrucchiera</b><small>Un colore per ogni capitolo</small></span></a></li>
+</ul>
+<footer>
+<p>Esempi a scopo dimostrativo, non sono attività reali.</p>
+<p>Privacy: questi siti non usano cookie, statistiche né servizi esterni; i caratteri e le foto sono salvati qui. GitHub Pages, che li ospita, può registrare dati tecnici delle visite (come l’indirizzo IP) per sicurezza.</p>
+</footer>
 </main></body></html>
