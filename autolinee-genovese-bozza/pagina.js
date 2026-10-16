@@ -13,7 +13,12 @@
   document.querySelectorAll('.cornice, .piede-foto, .ritratto .foto, .scheda img, .contatti > picture img').forEach((el) => el.classList.add('otturatore'));
   // le righe del biglietto appaiono una dopo l'altra
   document.querySelectorAll('[data-stampa] .tratte li').forEach((li, i) => li.style.setProperty('--i', i));
-  document.querySelectorAll('[data-reveal], .mezzo, .maschera, [data-stampa], .offerta').forEach((el) => io.observe(el));
+  document.querySelectorAll('[data-reveal], .mezzo, [data-stampa], .offerta').forEach((el) => io.observe(el));
+  // i titoli partono poco prima di entrare: un titolo appena sotto il bordo non resta mai nascosto dietro la maschera
+  const ioTitoli = new IntersectionObserver((voci) => {
+    for (const v of voci) if (v.isIntersecting) { v.target.classList.add('is-in'); ioTitoli.unobserve(v.target); }
+  }, { rootMargin: '0px 0px 15% 0px', threshold: 0 });
+  document.querySelectorAll('.maschera').forEach((el) => ioTitoli.observe(el));
   // il nome in fondo sta all'ultimo pixel della pagina: senza margine, altrimenti non "entra" mai
   const nome = document.querySelector('.nome-gigante');
   if (nome) new IntersectionObserver(([v], o) => { if (v.isIntersecting) { nome.classList.add('is-in'); o.disconnect(); } }, { threshold: 0.2 }).observe(nome);
