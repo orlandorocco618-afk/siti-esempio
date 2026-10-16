@@ -1,0 +1,395 @@
+/* Autolinee Genovese — bozza 16/10/2026
+   Direzione taste-skill: "pinned poster" (seed 1693441189), Switzer, palette "cielo e blu notte".
+   L'arancio viene dal filetto dei sedili e dal logo "Special" sui MAN. */
+
+@font-face { font-family: "Switzer"; src: url("font/switzer-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Switzer"; src: url("font/switzer-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Switzer"; src: url("font/switzer-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+:root {
+  --bg: #6bb4ee;
+  --surface: #7dbdf0;
+  --ink: #0e1822;
+  --muted: #1b3d5c;
+  --accent: #ff5a1f;
+  --accent-strong: #ff7a45;
+  --accent-ink: #0e1822;
+  --field-1: #ffffff;  --field-1-ink: #0e1822;
+  --field-2: #0e1822;  --field-2-ink: #ffffff;
+  --field-2-soft: #b9cde0;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem);
+  --step-head: clamp(2rem, 1.3rem + 3.4vw, 4.25rem);
+  --step-display: clamp(3.6rem, 8vw, 7.5rem);
+  --step-giga: clamp(4.5rem, 18vw, 17rem);
+
+  --margine: 32px;
+  --gutter: 24px;
+  --raggio: 4px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-reveal: 800ms;
+}
+@media (max-width: 760px) { :root { --margine: 16px; --gutter: 16px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: auto; overflow-x: clip; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Switzer", system-ui, sans-serif; font-size: var(--step-body); line-height: 1.5;
+  letter-spacing: -0.005em; overflow-x: clip;
+}
+img, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; margin: 0; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Parti da confermare con Andy: si spengono togliendo la classe "bozza" da <html> */
+.bozza mark.dc { background: #ffe066; color: #0e1822; padding: 0 0.15em; border-radius: 2px; }
+html:not(.bozza) mark.dc { background: none; color: inherit; }
+.avviso-bozza { background: #ffe066; color: #0e1822; font-size: var(--step-small); padding: 10px var(--margine); }
+.avviso-bozza p { max-width: 72ch; }
+html:not(.bozza) .avviso-bozza { display: none; }
+
+/* Pulsanti e link */
+.pulsante {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
+  min-height: 48px; padding: 0 22px; border: 0; border-radius: 0;
+  background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.pulsante:active { transform: scale(0.97); }
+.pulsante.piccolo { min-height: 40px; padding: 0 16px; font-size: var(--step-small); }
+.link { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.2em; text-decoration-thickness: 0.07em; transition: text-decoration-color var(--t-hover) ease; }
+@media (hover: hover) and (pointer: fine) {
+  .pulsante:hover { background-color: var(--accent-strong); }
+  .link:hover { text-decoration-color: currentColor; }
+}
+
+/* ---------- Testata ---------- */
+.testata {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 20px var(--margine); font-size: var(--step-small); position: relative; z-index: 3;
+}
+.marchio { font-weight: 600; font-size: var(--step-lead); letter-spacing: -0.04em; text-decoration: none; }
+.testata nav { display: flex; align-items: center; gap: 28px; }
+.testata nav a:not(.pulsante) { text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .testata nav a:not(.pulsante):hover { text-decoration: underline; text-underline-offset: 0.25em; } }
+@media (max-width: 760px) {
+  .testata nav { gap: 16px; }
+  .testata nav .solo-largo { display: none; }
+}
+
+/* ---------- Apertura: frase divisa da una cornice, rullo che scorre ---------- */
+.apertura { position: relative; height: 230svh; }
+.palco { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
+.palco-corpo { position: relative; }
+.apertura h1 { font-weight: 600; font-size: var(--step-head); letter-spacing: -0.04em; line-height: 0.95; }
+.apertura h1 span { position: absolute; top: 50%; margin-top: -0.95em; white-space: nowrap; }
+.apertura h1 .prima { left: var(--margine); }
+.apertura h1 .seconda { right: var(--margine); text-align: right; }
+.rullo-finestra { position: absolute; left: 50%; top: 0; bottom: 0; width: 36vw; transform: translateX(-50%); overflow: hidden; }
+.rullo { position: absolute; left: 0; right: 0; top: 50%; display: flex; flex-direction: column; gap: 24px; will-change: transform; }
+.rullo figure { margin: 0; aspect-ratio: 16 / 9; border-radius: var(--raggio); overflow: hidden; background: var(--surface); }
+.rullo img { width: 100%; height: 100%; object-fit: cover; }
+.palco-piede { position: absolute; left: var(--margine); bottom: 32px; width: min(30vw, 420px); display: grid; gap: 18px; justify-items: start; }
+.palco-piede p { font-size: var(--step-body); }
+
+@media (max-width: 900px) {
+  .apertura { height: auto; }
+  .palco { position: static; height: auto; overflow: visible; display: block; }
+  .palco-corpo { padding: 12px var(--margine) 48px; }
+  .apertura h1 { font-size: var(--step-head); }
+  .apertura h1 br { display: none; }
+  .apertura h1 span { position: static; margin-top: 0; display: block; white-space: normal; }
+  .apertura h1 .seconda { text-align: right; }
+  .rullo-finestra { position: relative; left: auto; transform: none; width: auto; height: auto; margin: 20px 0; overflow: visible; }
+  .rullo { position: static; transform: none !important; }
+  .rullo figure { aspect-ratio: 4 / 3; }
+  .rullo figure:not(:nth-child(2)) { display: none; }
+  .palco-piede { position: static; width: auto; margin-top: 28px; }
+  .palco-piede p { font-size: var(--step-body); }
+}
+
+/* ---------- Servizi: il biglietto del pullman ---------- */
+.servizi { background: var(--field-2); color: var(--field-2-ink); padding: 160px var(--margine) 180px; }
+.servizi-griglia { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: start; }
+.servizi-testo { grid-column: 1 / span 5; position: sticky; top: 12vh; display: grid; gap: 28px; }
+.servizi h2 { font-size: var(--step-display); line-height: 0.88; }
+.servizi .intro { font-size: var(--step-lead); line-height: 1.35; color: var(--field-2-ink); max-width: 30ch; }
+.servizi .nota { color: var(--field-2-soft); max-width: 44ch; }
+.biglietto-bus {
+  grid-column: 7 / span 6; background: var(--field-1); color: var(--field-1-ink);
+  padding: 40px 36px 36px; clip-path: polygon(0.00% 0px, 2.50% 10px, 5.00% 0px, 7.50% 10px, 10.00% 0px, 12.50% 10px, 15.00% 0px, 17.50% 10px, 20.00% 0px, 22.50% 10px, 25.00% 0px, 27.50% 10px, 30.00% 0px, 32.50% 10px, 35.00% 0px, 37.50% 10px, 40.00% 0px, 42.50% 10px, 45.00% 0px, 47.50% 10px, 50.00% 0px, 52.50% 10px, 55.00% 0px, 57.50% 10px, 60.00% 0px, 62.50% 10px, 65.00% 0px, 67.50% 10px, 70.00% 0px, 72.50% 10px, 75.00% 0px, 77.50% 10px, 80.00% 0px, 82.50% 10px, 85.00% 0px, 87.50% 10px, 90.00% 0px, 92.50% 10px, 95.00% 0px, 97.50% 10px, 100.00% 0px, 100.00% calc(100% - 0px), 97.50% calc(100% - 10px), 95.00% calc(100% - 0px), 92.50% calc(100% - 10px), 90.00% calc(100% - 0px), 87.50% calc(100% - 10px), 85.00% calc(100% - 0px), 82.50% calc(100% - 10px), 80.00% calc(100% - 0px), 77.50% calc(100% - 10px), 75.00% calc(100% - 0px), 72.50% calc(100% - 10px), 70.00% calc(100% - 0px), 67.50% calc(100% - 10px), 65.00% calc(100% - 0px), 62.50% calc(100% - 10px), 60.00% calc(100% - 0px), 57.50% calc(100% - 10px), 55.00% calc(100% - 0px), 52.50% calc(100% - 10px), 50.00% calc(100% - 0px), 47.50% calc(100% - 10px), 45.00% calc(100% - 0px), 42.50% calc(100% - 10px), 40.00% calc(100% - 0px), 37.50% calc(100% - 10px), 35.00% calc(100% - 0px), 32.50% calc(100% - 10px), 30.00% calc(100% - 0px), 27.50% calc(100% - 10px), 25.00% calc(100% - 0px), 22.50% calc(100% - 10px), 20.00% calc(100% - 0px), 17.50% calc(100% - 10px), 15.00% calc(100% - 0px), 12.50% calc(100% - 10px), 10.00% calc(100% - 0px), 7.50% calc(100% - 10px), 5.00% calc(100% - 0px), 2.50% calc(100% - 10px), 0.00% calc(100% - 0px)); font-variant-numeric: tabular-nums;
+}
+.biglietto-testa { display: flex; justify-content: space-between; gap: 16px; font-size: var(--step-small); font-weight: 500; margin: -40px -36px 8px; padding: 26px 36px 16px; background: #dcecf9; }
+.biglietto-bus h3 { font-size: var(--step-lead); letter-spacing: -0.03em; line-height: 1.1; margin: 28px 0 8px; }
+.tratte { list-style: none; margin: 0; padding: 0; }
+.tratte li { display: grid; grid-template-columns: auto 1fr auto; column-gap: 10px; align-items: baseline; padding: 9px 0; }
+.tratte .cosa { font-weight: 500; }
+.tratte .punti { overflow: hidden; white-space: nowrap; color: var(--muted); letter-spacing: 0.25em; }
+.tratte .punti::before { content: '· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·'; }
+.tratte .chi { grid-column: 1 / -1; font-size: var(--step-small); color: var(--muted); }
+.biglietto-piede {
+  display: flex; justify-content: space-between; gap: 12px; align-items: center; margin: 28px -14px 0; min-height: 52px; padding: 8px 16px;
+  background: var(--ink); color: var(--field-2-ink); text-decoration: none; font-weight: 500;
+  transition: background-color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+.biglietto-piede:active { transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) { .biglietto-piede:hover { background: var(--accent); color: var(--accent-ink); } }
+@media (max-width: 900px) {
+  .servizi { padding: 96px var(--margine) 112px; }
+  .servizi-griglia { display: block; }
+  .servizi-testo { position: static; margin-bottom: 48px; }
+  .servizi h2 { font-size: var(--step-display); }
+  .biglietto-bus { padding: 32px 20px 28px; }
+  .biglietto-testa { margin: -32px -20px 8px; padding: 22px 20px 14px; }
+  .biglietto-piede { margin: 24px -8px 0; }
+}
+
+/* ---------- Offerta: la frase con i posti ---------- */
+.offerta { background: var(--bg); padding: 180px var(--margine); }
+.offerta .frase { font-size: var(--step-display); font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; max-width: 16ch; }
+.cifra { display: inline-block; background: var(--accent); color: var(--accent-ink); padding: 0 0.12em; font-variant-numeric: tabular-nums; }
+.offerta-sotto { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); margin-top: 64px; align-items: end; }
+.offerta-sotto p { grid-column: 1 / span 6; font-size: var(--step-lead); line-height: 1.35; }
+.offerta-sotto .pulsante { grid-column: 10 / span 3; justify-self: end; }
+@media (max-width: 900px) {
+  .offerta { padding: 96px var(--margine); }
+  .offerta .frase { font-size: var(--step-display); }
+  .offerta-sotto { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 40px; }
+  .offerta-sotto p, .offerta-sotto .pulsante { grid-column: 1; justify-self: start; }
+}
+
+/* ---------- I nostri mezzi ---------- */
+.mezzi-intro { background: var(--field-1); color: var(--field-1-ink); padding: 140px var(--margine) 120px; display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+.mezzi-intro h2 { grid-column: 1 / span 6; font-size: var(--step-head); }
+.mezzi-intro .testo { grid-column: 1 / span 5; font-size: var(--step-lead); line-height: 1.35; margin-top: 28px; }
+.calcolo { grid-column: 7 / span 6; grid-row: 1 / span 2; align-self: end; background: var(--bg); padding: 32px; display: grid; gap: 20px; }
+.calcolo h3 { font-size: var(--step-lead); letter-spacing: -0.03em; line-height: 1.1; }
+.contatore { display: flex; align-items: stretch; gap: 0; }
+.contatore button {
+  width: 56px; min-height: 64px; flex: none; border: 0; background: var(--ink); color: #fff; font: inherit; font-size: var(--step-lead); cursor: pointer;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.contatore button:active { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) { .contatore button:hover { background: var(--muted); } }
+.contatore input {
+  width: 104px; min-width: 0; border: 0; background: #fff; color: var(--ink); text-align: center;
+  font: inherit; font-size: var(--step-head); font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield; appearance: textfield;
+}
+.contatore input::-webkit-outer-spin-button, .contatore input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.contatore label { align-self: center; margin-left: 14px; }
+.esito { font-size: var(--step-lead); line-height: 1.3; min-height: 2.6em; }
+.esito strong { font-weight: 600; }
+.esito-azioni { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+.esito-azioni .pulsante { max-width: 100%; text-align: center; }
+.calcolo .campi { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.calcolo .campi label { display: grid; gap: 6px; font-size: var(--step-body); }
+.calcolo .campi input { min-height: 48px; border: 0; padding: 0 12px; font: inherit; background: #fff; color: var(--ink); }
+@media (max-width: 900px) {
+  .mezzi-intro { display: block; padding: 96px var(--margine) 64px; }
+  .calcolo { margin-top: 40px; padding: 20px; }
+  .calcolo .campi { grid-template-columns: 1fr; }
+}
+
+.mezzo { position: relative; height: 100svh; min-height: 640px; color: var(--field-2-ink); background: var(--ink); overflow: hidden; }
+.mezzo > .sfondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mezzo-griglia { position: relative; height: 100%; display: grid; grid-template-columns: repeat(4, 1fr); padding: 0 var(--margine); gap: var(--gutter); align-items: center; }
+.scheda {
+  grid-column: var(--col, 2); background: var(--field-2); color: var(--field-2-ink);
+  min-height: 52svh; padding: 28px 24px 0; display: flex; flex-direction: column; gap: 10px; border-radius: var(--raggio); overflow: hidden;
+}
+.scheda h3 { font-size: var(--step-lead); letter-spacing: -0.03em; line-height: 1.1; }
+.scheda .variante { color: var(--field-2-soft); }
+.scheda .posti { font-weight: 500; }
+.scheda img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; margin: 8px 0 4px; border-radius: 2px; }
+.scheda ul { margin: 0; padding: 0; list-style: none; font-size: var(--step-body); color: var(--field-2-soft); line-height: 1.45; }
+.scheda .pulsante { margin: auto -24px 0; width: calc(100% + 48px); min-height: 56px; }
+@media (max-width: 1100px) { .mezzo-griglia { grid-template-columns: repeat(3, 1fr); } .scheda { grid-column: var(--col-m, 2) !important; } }
+@media (max-width: 760px) {
+  .mezzo { height: auto; min-height: 0; background: var(--field-2); }
+  .mezzo > .sfondo { position: static; height: 62svh; }
+  .mezzo-griglia { display: block; padding: 0; }
+  .scheda { min-height: 0; border-radius: 0; padding: 24px var(--margine) 0; display: grid; grid-template-columns: 1fr 96px; column-gap: 16px; align-items: start; }
+  .scheda > * { grid-column: 1; }
+  .scheda img { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+  .scheda ul { grid-column: 1 / -1; }
+  .scheda .pulsante { grid-column: 1 / -1; margin: 16px calc(-1 * var(--margine)) 0; width: calc(100% + 2 * var(--margine)); }
+}
+
+/* ---------- Dove siamo stati: una cornice, il contenuto cambia ---------- */
+.viaggi { padding: 180px var(--margine) 140px; display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: center; }
+.viaggi .testo { grid-column: 1 / span 5; display: grid; gap: 24px; }
+.viaggi h2 { font-size: var(--step-head); }
+.viaggi .testo p { font-size: var(--step-lead); line-height: 1.35; }
+.viaggi .elenco { margin: 0; padding: 0; list-style: none; font-size: var(--step-lead); line-height: 1.35; }
+.viaggi .elenco li { padding: 4px 0; }
+.cornice-blocco { grid-column: 7 / span 5; }
+.cornice { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--raggio); background: var(--surface); cursor: pointer; }
+.cornice img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 600ms ease; }
+.cornice img.attiva { opacity: 1; }
+.didascalia { font-size: var(--step-small); margin-top: 16px; min-height: 1.5em; }
+@media (max-width: 900px) {
+  .viaggi { display: block; padding: 112px var(--margine); }
+  .cornice-blocco { width: 72vw; margin: 48px auto 0; }
+  .didascalia { text-align: center; }
+}
+
+/* ---------- Famiglia: titolo fermo, ritratti che passano ---------- */
+.famiglia { position: relative; background: var(--surface); }
+/* il titolo fisso resta dentro la sua corsa: non esce sopra i contatti */
+.famiglia-corsa { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); padding: 160px var(--margine) 120px; align-items: start; }
+/* titolo fermo a sinistra, foto che passano a destra: niente sovrapposizioni */
+.famiglia-titolo { grid-column: 1 / span 5; position: sticky; top: 18vh; }
+.famiglia-titolo h2 { font-size: var(--step-display); line-height: 0.88; color: var(--ink); }
+.ritratti { grid-column: 7 / span 6; display: grid; grid-template-columns: repeat(6, 1fr); row-gap: 18svh; column-gap: var(--gutter); }
+.ritratto { grid-column: 1 / span 4; margin: 0; }
+.ritratto:nth-child(even) { grid-column: 3 / span 4; }
+.ritratto .foto { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; border-radius: var(--raggio); background: var(--ink); }
+.ritratto figcaption { margin-top: 14px; max-width: 320px; display: grid; gap: 4px; font-size: var(--step-body); line-height: 1.4; }
+.ritratto figcaption b { font-weight: 600; }
+.ritratto figcaption span { color: var(--muted); }
+.storia-testo { position: relative; z-index: 3; background: var(--surface); padding: 0 var(--margine) 160px; display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+.storia-testo p { grid-column: 7 / span 5; font-size: var(--step-lead); line-height: 1.4; }
+@media (max-width: 900px) {
+  .famiglia-corsa { display: block; padding: 96px var(--margine) 64px; }
+  .famiglia-titolo { position: static; margin-bottom: 32px; }
+  .famiglia-titolo h2 { font-size: var(--step-display); }
+  .ritratti { display: grid; grid-template-columns: 1fr; row-gap: 48px; }
+  .ritratto, .ritratto:nth-child(even) { grid-column: 1; width: 72%; }
+  .ritratto:nth-child(even) { justify-self: end; }
+  .storia-testo { display: block; padding: 0 var(--margine) 112px; }
+}
+
+/* ---------- Contatti: biglietto sulla foto ---------- */
+.contatti { position: relative; min-height: 100svh; display: flow-root; }
+.contatti > picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.biglietto {
+  position: relative; z-index: 1; margin: 60px var(--margine) 60px auto; width: 400px; background: var(--field-1); color: var(--field-1-ink);
+  border-radius: 8px; padding: 32px 32px 0; display: grid; gap: 18px; overflow: hidden;
+}
+.biglietto h2 { font-size: var(--step-lead); font-weight: 400; letter-spacing: -0.03em; line-height: 1.1; }
+.biglietto address { font-style: normal; }
+.orari { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.orari th { text-align: left; font-weight: 400; padding: 2px 0; }
+.orari td { text-align: right; padding: 2px 0; }
+.biglietto .recapiti { display: grid; gap: 4px; }
+.biglietto .recapiti a { overflow-wrap: anywhere; }
+.biglietto .pulsante { margin: 6px -32px 0; width: calc(100% + 64px); min-height: 56px; }
+@media (max-width: 760px) {
+  .contatti { min-height: 0; background: var(--field-1); }
+  .contatti > picture img { position: static; height: 70svh; }
+  .biglietto { margin: 0; width: auto; border-radius: 0; padding: 32px var(--margine) 0; }
+  .biglietto .pulsante { margin: 6px calc(-1 * var(--margine)) 0; width: calc(100% + 2 * var(--margine)); }
+}
+
+/* ---------- Piede: foto a metà, menu a metà ---------- */
+.piede { display: grid; grid-template-columns: repeat(12, 1fr); min-height: 100svh; background: var(--field-2); color: var(--field-2-ink); }
+.piede-foto { grid-column: 1 / span 6; position: relative; overflow: hidden; }
+.piede-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.piede-menu { grid-column: 8 / span 5; padding: 80px var(--margine) 32px 0; display: flex; flex-direction: column; gap: 28px; }
+.piede-menu .marchio { font-size: var(--step-lead); }
+.piede-menu nav { display: grid; gap: 20px; }
+.piede-menu nav a { font-size: var(--step-lead); font-weight: 600; letter-spacing: -0.03em; text-decoration: none; transition: transform var(--t-hover) var(--ease-out), color var(--t-hover) ease; width: fit-content; }
+@media (hover: hover) and (pointer: fine) {
+  .piede-menu nav:hover a { color: var(--field-2-soft); }
+  .piede-menu nav a:hover { color: var(--field-2-ink); transform: translateX(12px); }
+}
+.piede-blocchi { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; font-size: var(--step-body); margin-top: 36px; }
+.piede-blocchi h3 { font-size: var(--step-small); font-weight: 500; letter-spacing: 0; line-height: 1.5; color: var(--field-2-soft); }
+.legale { margin-top: auto; font-size: var(--step-small); color: var(--field-2-soft); line-height: 1.6; }
+.legale a { color: var(--field-2-ink); }
+@media (max-width: 900px) {
+  .piede { display: block; min-height: 0; }
+  .piede-foto { height: 50svh; }
+  .piede-menu { padding: 40px var(--margine) 32px; }
+  .piede-menu nav a { font-size: var(--step-head); }
+  .piede-blocchi { grid-template-columns: 1fr; }
+}
+
+/* ---------- A bordo: due foto e il testo in mezzo ---------- */
+.a-bordo { background: var(--field-2); color: var(--field-2-ink); padding: 140px var(--margine); display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: end; }
+.a-bordo .grande { grid-column: 1 / span 6; margin: 0; }
+.a-bordo .stretta { grid-column: 10 / span 3; margin: 0; align-self: start; }
+.a-bordo img { width: 100%; height: 100%; object-fit: cover; }
+.a-bordo-testo { grid-column: 7 / span 3; display: grid; gap: 16px; padding-bottom: 8px; }
+.a-bordo-testo h3 { font-size: var(--step-head); }
+.a-bordo-testo p { color: var(--field-2-soft); }
+@media (max-width: 900px) {
+  .a-bordo { display: grid; grid-template-columns: 1fr 1fr; padding: 72px var(--margine); gap: 16px; }
+  .a-bordo .grande { grid-column: 1 / -1; }
+  .a-bordo-testo { grid-column: 1; grid-row: 2; align-self: start; }
+  .a-bordo .stretta { grid-column: 2; grid-row: 2; }
+}
+
+/* ---------- Foto a tutta larghezza ---------- */
+.panorama { margin: 0; height: min(80svh, 900px); overflow: hidden; background: var(--ink); }
+.panorama > div { height: 100%; }
+.panorama img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 760px) { .panorama { height: 56svh; } }
+
+/* ---------- Telefono gigante ---------- */
+.numero { background: var(--ink); color: var(--bg); padding: 120px var(--margine) 96px; display: grid; gap: 20px; }
+.numero p { font-size: var(--step-lead); }
+.numero-grande { font-size: min(var(--step-giga), 12.5vw); white-space: nowrap; font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; text-decoration: none; font-variant-numeric: tabular-nums; width: fit-content; transition: color var(--t-hover) ease; }
+@media (hover: hover) and (pointer: fine) { .numero-grande:hover { color: #ffffff; } }
+.numero-sotto a { color: var(--field-2-ink); overflow-wrap: anywhere; }
+@media (max-width: 760px) { .numero { padding: 72px var(--margine); } .numero-grande { font-size: 13.5vw; } }
+
+/* ---------- Nome gigante in fondo ---------- */
+.nome-gigante { margin: 0; background: var(--accent); color: var(--ink); font-size: var(--step-giga); font-weight: 600; letter-spacing: -0.05em; line-height: 0.8; padding: 0.12em var(--margine) 0.06em; white-space: nowrap; overflow: hidden; }
+
+
+/* ---------- Movimento ----------
+   Come nei siti esempio: i testi salgono e appaiono uno dopo l'altro, i titoli escono da dietro una maschera,
+   le foto si aprono dall'alto come un otturatore. Tutto nascosto solo se lo script gira (html.js). */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-rise] { opacity: 0; transform: translateY(28px); animation: sali 1000ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 110ms + 120ms); }
+  .js [data-reveal] { opacity: 0; transform: translateY(36px); transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-out); transition-delay: calc(var(--i, 0) * 90ms); }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+  /* titoli: ogni riga sale da dietro la sua linea di base */
+  .maschera .riga, .nome-gigante .riga { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+  .maschera .riga > span, .nome-gigante .riga > span { display: block; }
+  .js .maschera .riga > span, .js .nome-gigante .riga > span { transform: translateY(108%); transition: transform 1000ms var(--ease-out); }
+  .js .maschera .riga:nth-child(2) > span { transition-delay: 120ms; }
+  .js .maschera.is-in .riga > span, .js .nome-gigante.is-in .riga > span { transform: none; }
+  /* foto: otturatore dall'alto + leggero zoom che si assesta */
+  .js .otturatore { clip-path: inset(0 0 100% 0); transition: clip-path 1200ms var(--ease-in-out); overflow: hidden; }
+  .js .otturatore img, .js .otturatore video { transform: scale(1.14); transition: transform 1700ms var(--ease-soft); }
+  .js .otturatore.is-in { clip-path: inset(0); }
+  .js .otturatore.is-in img, .js .otturatore.is-in video { transform: none; }
+  .js .otturatore img.deriva { transition: none; }
+  /* il biglietto esce come da una stampante */
+  .js [data-stampa] { opacity: 0; transform: translateY(-56px) rotate(-1.5deg); transition: opacity 900ms var(--ease-out), transform 1300ms var(--ease-out); }
+  .js [data-stampa].is-in { opacity: 1; transform: none; }
+  .js [data-stampa] .tratte li { opacity: 0; transform: translateX(-16px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: calc(500ms + var(--i, 0) * 70ms); }
+  .js [data-stampa].is-in .tratte li { opacity: 1; transform: none; }
+  /* sfondi dei mezzi che si assestano, cifre che rimbalzano */
+  .js .mezzo > .sfondo { transform: scale(1.1); transition: transform 1800ms var(--ease-soft); }
+  .js .mezzo.is-in > .sfondo { transform: none; }
+  .js .mezzo .scheda { opacity: 0; transform: translateY(48px); transition: opacity 900ms var(--ease-out) 200ms, transform 1100ms var(--ease-out) 200ms; }
+  .js .mezzo.is-in .scheda { opacity: 1; transform: none; }
+  .js .cifra { transform: scale(0.6) rotate(-4deg); transition: transform 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 300ms; }
+  .js .offerta.is-in .cifra { transform: none; }
+  .js .offerta.is-in .cifra + .cifra, .js .offerta.is-in .cifra:nth-of-type(2) { transition-delay: 450ms; }
+  .esito.cambia { animation: lampo 420ms var(--ease-out); }
+  .js .apertura .rullo figure { transition: transform 600ms var(--ease-out); }
+  @supports (animation-timeline: view()) {
+    .deriva { animation: deriva linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+  }
+}
+@keyframes sali { to { opacity: 1; transform: none; } }
+@keyframes lampo { from { opacity: 0.2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes deriva { from { transform: translateY(-6%) scale(1.12); } to { transform: translateY(6%) scale(1.12); } }

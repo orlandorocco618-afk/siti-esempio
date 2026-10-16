@@ -1,0 +1,4 @@
+Switzer (400, 500, 600) di Indian Type Foundry, scaricato da Fontshare il 16/10/2026
+(https://api.fontshare.com/v2/css?f[]=switzer@400,500,600).
+Licenza: ITF Free Font License (FFL), uso commerciale gratuito, anche su siti web. https://www.fontshare.com/licenses/itf-ffl
+Ospitato in locale: nessuna richiesta a server di terzi (regola cookie/privacy).
