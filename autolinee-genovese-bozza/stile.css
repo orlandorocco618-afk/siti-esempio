@@ -273,6 +273,13 @@ html:not(.bozza) .avviso-bozza { display: none; }
   .storia-testo { display: block; padding: 0 var(--margine) 112px; }
 }
 
+/* avvisi sulle linee: compaiono solo se il titolare ne ha scritto uno da /gestione */
+.avvisi { margin: 20px 0 0; padding: 16px 18px; background: var(--accent); color: var(--accent-ink); border-radius: var(--raggio); }
+.avvisi-titolo { font-weight: 600; font-size: var(--step-small); }
+.avvisi ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.avvisi li { font-weight: 500; }
+.avvisi li span { font-weight: 400; font-size: var(--step-small); }
+
 /* ---------- Contatti: biglietto sulla foto ---------- */
 .contatti { position: relative; min-height: 100svh; display: flow-root; }
 .contatti > picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }

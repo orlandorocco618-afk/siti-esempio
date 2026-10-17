@@ -115,6 +115,27 @@
   }));
   aggiorna(false);
 
+  // --- Avvisi sulle linee: li scrive il titolare da /gestione; senza avvisi (o sull'anteprima GitHub) il riquadro resta nascosto
+  const boxAvvisi = document.getElementById('avvisi');
+  if (boxAvvisi && window.fetch) {
+    fetch('/api/avvisi', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : [])).then((lista) => {
+      if (!Array.isArray(lista) || !lista.length) return;
+      const ul = boxAvvisi.querySelector('ul');
+      for (const a of lista) {
+        const li = document.createElement('li');
+        li.textContent = a.testo;
+        const quando = new Date(a.quando);
+        if (!isNaN(quando)) {
+          const s = document.createElement('span');
+          s.textContent = ' · ' + quando.toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
+          li.append(s);
+        }
+        ul.append(li);
+      }
+      boxAvvisi.hidden = false;
+    }).catch(() => {});
+  }
+
   // --- Dove siamo stati: una cornice, le foto si alternano; un tocco passa alla prossima
   const cornice = document.getElementById('cornice');
   const foto = [...cornice.querySelectorAll('img')];
